@@ -7,14 +7,17 @@ services:
       POSTGRES_USER: dts
       POSTGRES_PASSWORD: supersecretgovernmentpassword122
       POSTGRES_DB: dts
-    ports:
-      - "5432:5432"
+    # do not expose to host machine (bad!)
+    # ports:
+    #   - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
 
   dts-backend:
     build: ./backend
     container_name: backend
+    environment:
+      - POSTGRES_DSN="host=dts-postgres user=dts password=supersecretgovernmentpassword122 dbname=dts port=5432 sslmode=disable TimeZone=Europe/London"
     ports:
       - "3000:3000"
     depends_on:
@@ -22,3 +25,8 @@ services:
 
 volumes:
   postgres_data:
+
+# to bind them together so you can do dts-postgres:5432
+networks:
+  dts-network:
+    driver: bridge 
