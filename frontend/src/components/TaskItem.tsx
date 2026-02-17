@@ -1,5 +1,3 @@
-import { Edit, Trash } from "lucide-react";
-
 import type { Task } from "../types";
 import { useState } from "react";
 import EditDialog from "./EditDialog";
@@ -95,7 +93,9 @@ export default function TaskItem({
         <div className="h-2" />
         {/* status card of getStatusColor */}
         <div className="flex flex-row gap-4 items-center">
-          <div className={`inline-block border ${getStatusColor(task.Status)} px-2 py-1 rounded`}>
+          <div
+            className={`inline-block border ${getStatusColor(task.Status)} px-2 py-1 rounded`}
+          >
             {task.Status.charAt(0).toUpperCase() + task.Status.slice(1)}
           </div>
         </div>

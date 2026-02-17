@@ -1,6 +1,6 @@
 import "./css/index.css";
 
-import { Hammer, Loader, Search } from "lucide-react";
+import { Hammer, Loader } from "lucide-react";
 
 import type { Task } from "./types";
 
@@ -115,7 +115,8 @@ function App() {
 
         {/* number of tasks, e.g 0 tasks found */}
         <div className="text-2xl text-black/90 font-semibold">
-          {filteredTasks.length} task{filteredTasks.length !== 1 ? "s" : ""} found
+          {filteredTasks.length} task{filteredTasks.length !== 1 ? "s" : ""}{" "}
+          found
         </div>
 
         {/* extra create task button */}
@@ -132,11 +133,11 @@ function App() {
             onChange={(e) => setSearchQ(e.target.value)}
           />
           <button
-          className="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded cursor-pointer"
-          onClick={() => setCreateDialogOpen(true)}
-        >
-          Create New Task
-        </button>
+            className="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded cursor-pointer"
+            onClick={() => setCreateDialogOpen(true)}
+          >
+            Create New Task
+          </button>
         </div>
 
         {/* list of tasks, not in grid but in line with space r*/}
@@ -150,7 +151,7 @@ function App() {
               key={task.ID}
             />
           ))}
-          
+
           {filteredTasks.length === 0 && (
             <div className="text-center text-gray-500 mt-8">
               No tasks found.
