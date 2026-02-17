@@ -1,12 +1,10 @@
-import { createPortal } from "react-dom";
 import "./css/index.css";
 
-import { Edit, Hammer, Loader, Trash, X } from "lucide-react";
+import { Hammer, Loader } from "lucide-react";
 
 import type { Task } from "./types";
 
 import { useEffect, useState } from "react";
-import EditDialog from "./components/EditDialog";
 import TaskItem from "./components/TaskItem";
 import Constants from "./Constants";
 import CreateTaskDialog from "./components/CreateDialog";

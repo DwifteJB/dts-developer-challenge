@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 
 import { X } from "lucide-react";
 import type { Task } from "@/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Constants from "@/Constants";
 import { toast } from "react-hot-toast";
 
@@ -59,7 +59,7 @@ export default function CreateTaskDialog({
         setStatus("");
         setDueDate(null);
 
-        
+
 
         onClose();
       } else {

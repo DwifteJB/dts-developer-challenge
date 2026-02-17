@@ -46,7 +46,7 @@ func RunServer(stopPrint bool) {
 
 	// localhost:3000 to stop giving me windows firewall popups
 	// http.ListenAndServe("localhost:3000", r)
-	http.ListenAndServe("localhost:3000", r)
+	http.ListenAndServe(":3000", r)
 }
 
 func main() {
