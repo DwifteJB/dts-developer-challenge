@@ -7,6 +7,20 @@ import Constants from "@/Constants";
 
 import toast from "react-hot-toast";
 
+function getStatusColor(status: string) {
+  // assume that statuses are "pending", "in progress" & "complete", otherwise its blue
+  switch (status.toLowerCase()) {
+    case "pending":
+      return "bg-yellow-100 text-yellow-500 border-yellow-300";
+    case "in progress":
+      return "bg-blue-100 text-blue-500 border-blue-300";
+    case "complete":
+      return "bg-green-100 text-green-500 border-green-300";
+    default:
+      return "border-blue-300 text-blue-500 bg-blue-100";
+  }
+}
+
 export default function TaskItem({
   task,
   tasks,
@@ -79,9 +93,9 @@ export default function TaskItem({
         </div>
         <p className="text-2xl text-black/90 font-semibold">Status</p>
         <div className="h-2" />
-        {/* status card of blue */}
+        {/* status card of getStatusColor */}
         <div className="flex flex-row gap-4 items-center">
-          <div className="inline-block border border-blue-300 text-blue-500 bg-gray-100 px-2 py-1 rounded">
+          <div className={`inline-block border ${getStatusColor(task.Status)} px-2 py-1 rounded`}>
             {task.Status.charAt(0).toUpperCase() + task.Status.slice(1)}
           </div>
         </div>
