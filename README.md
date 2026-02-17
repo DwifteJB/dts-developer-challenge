@@ -2,6 +2,7 @@
 
 The live preview is at [dts.rmfosho.me](https://dts.rmfosho.me)
 
+![Page Preview](https://github.com/DwifteJB/dts-developer-challenge/blob/main/page-screenshot.png?raw=true)
 
 ## Backend
 
