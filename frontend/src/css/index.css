@@ -1,5 +1,5 @@
 @import "tailwindcss";
 
 * {
-  color: white;
+   font-family: "Roboto", sans-serif;
 }

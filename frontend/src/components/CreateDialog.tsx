@@ -59,8 +59,6 @@ export default function CreateTaskDialog({
         setStatus("");
         setDueDate(null);
 
-
-
         onClose();
       } else {
         throw new Error("Failed to create task");

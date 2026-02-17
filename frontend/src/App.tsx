@@ -1,6 +1,6 @@
 import "./css/index.css";
 
-import { Hammer, Loader } from "lucide-react";
+import { Hammer, Loader, Search } from "lucide-react";
 
 import type { Task } from "./types";
 
@@ -8,9 +8,15 @@ import { useEffect, useState } from "react";
 import TaskItem from "./components/TaskItem";
 import Constants from "./Constants";
 import CreateTaskDialog from "./components/CreateDialog";
+import GovIcon from "./components/GovIcon";
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
+
+  // for searching
+  const [searchQ, setSearchQ] = useState("");
+
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -23,6 +29,7 @@ function App() {
         .then((response) => response.json())
         .then((data) => {
           setTasks(data);
+          setFilteredTasks(data);
           setHasLoaded(true);
         })
         .catch((error) => {
@@ -38,13 +45,29 @@ function App() {
   }
 
   useEffect(() => {
+    // if empty then show all
+    if (!searchQ || searchQ.trim() === "") {
+      setFilteredTasks(tasks);
+      return;
+    }
+
+    // filter by title only
+    if (tasks) {
+      const filtered = tasks.filter((task) =>
+        task.Title.toLowerCase().includes(searchQ.toLowerCase()),
+      );
+      setFilteredTasks(filtered);
+    }
+  }, [searchQ]);
+
+  useEffect(() => {
     // load
     fetchTasks();
   }, []);
 
   if (!hasLoaded) {
     return (
-      <div className="bg-[#101010] min-h-screen min-w-screen flex items-center justify-center">
+      <div className="bg-[#1d70b8] min-h-screen min-w-screen flex items-center justify-center">
         {/* spinner */}
         <Loader className="w-12 h-12 text-gray-400 animate-spin" />
       </div>
@@ -52,38 +75,88 @@ function App() {
   }
 
   return (
-    <div
-      className="bg-[#101010] min-h-screen min-w-screen"
-      style={{
-        background: "linear-gradient(rgb(22, 22, 22) 60%, rgb(11, 11, 11))",
-      }}
-    >
+    <div className="bg-white min-h-screen min-w-screen">
       {/* top bit of text as like a title */}
-      <div className="p-4 border-b border-[#2D2D2D]">
-        <h2 className="text-center text-2xl font-bold text-white">
-          Your tasks ({tasks.length})
-        </h2>
+      <div className="p-4 bg-[#1d70b8] justify-center flex gap-4">
+        {/* max width of 6xl, center */}
+        <div className="max-w-6xl mx-auto flex items-center gap-4">
+          <div className="min-w-full flex gap-4">
+            <GovIcon />
+            {/* spacer */}
+            <div className="flex-1"></div>
+            <div className="text-white text-xl md:text-2xl font-bold">
+              Developer Task System
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* grid based layout, based on screensize */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
-        {/* test cards */}
+      <div className="max-w-6xl mx-auto p-4 pt-8">
+        {/* track your tasks */}
+        <span className="text-xl md:text-2xl font-medium mb-4 text-gray-700">
+          Manage and track your developer tasks.
+        </span>
+        <br />
+        {/* title */}
+        <span className="text-3xl md:text-5xl font-semibold mb-4 text-[#0b0c0c]">
+          Task System
+        </span>
 
-        {tasks.map((task) => (
-          <TaskItem
-            key={task.ID}
-            task={task}
-            tasks={tasks}
-            setTasks={setTasks}
+        {/* spacer */}
+
+        <div className="h-8"></div>
+
+        {/* your tasks */}
+        <span className="text-3xl md:text-4xl font-bold mb-4 text-[#0b0c0c]">
+          Your Tasks
+        </span>
+
+        <div className="h-4"></div>
+
+        {/* number of tasks, e.g 0 tasks found */}
+        <div className="text-2xl text-black/90 font-semibold">
+          {filteredTasks.length} task{filteredTasks.length !== 1 ? "s" : ""} found
+        </div>
+
+        {/* extra create task button */}
+
+        <div className="h-4"></div>
+
+        <div className="flex flex-row gap-4">
+          {/* search */}
+          <input
+            type="text"
+            placeholder="Search tasks..."
+            className="border rounded px-3 py-2 flex-1"
+            value={searchQ}
+            onChange={(e) => setSearchQ(e.target.value)}
           />
-        ))}
+          <button
+          className="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded cursor-pointer"
+          onClick={() => setCreateDialogOpen(true)}
+        >
+          Create New Task
+        </button>
+        </div>
 
-        {tasks.length === 0 && (
-          <p className="text-gray-400 text-center col-span-full">
-            No tasks found. Create a new task to get started! (click the hammer
-            in the bottom right)
-          </p>
-        )}
+        {/* list of tasks, not in grid but in line with space r*/}
+
+        <div className="flex flex-col gap-4 mt-4">
+          {filteredTasks.map((task) => (
+            <TaskItem
+              setTasks={setTasks}
+              task={task}
+              tasks={tasks}
+              key={task.ID}
+            />
+          ))}
+          
+          {filteredTasks.length === 0 && (
+            <div className="text-center text-gray-500 mt-8">
+              No tasks found.
+            </div>
+          )}
+        </div>
       </div>
 
       {/* bottom right bar that allows you to create new tasks! */}

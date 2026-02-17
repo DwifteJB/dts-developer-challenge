@@ -38,41 +38,61 @@ export default function TaskItem({
     }
   }
   return (
-    <div
-      key={task.ID}
-      className="bg-[#0F0F10] border border-[#2D2D2D] m-2 rounded-lg"
-    >
+    <div key={task.ID} className="bg-white border border-gray-300 m-2 rounded">
       {/* title at top */}
-      <div className="w-full border-b border-[#2D2D2D]">
-        <h3 className="text-white text-center p-2">{task.Title}</h3>
+      <div className="w-full border-b border-gray-300">
+        <div className="p-4">
+          <h3 className="text-3xl font-semibold tracking-tight">
+            {task.Title.charAt(0).toUpperCase() + task.Title.slice(1)}
+          </h3>
+
+          {/* due at */}
+          <p className="text-xl text-black/90">
+            Due at{" "}
+            {new Date(task.DueDate).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}{" "}
+            on {new Date(task.DueDate).toLocaleDateString()}
+          </p>
+        </div>
       </div>
 
       {/* contains: description, status, due date (parse from ISO) */}
 
-      <div className="p-2">
-        <p className="text-sm text-gray-400 mb-2">
-          Description: {task.Description ?? "No description provided."}
-        </p>
-        <p className="text-sm text-gray-400 mb-1">
-          Status: <span className="text-green-400">{task.Status}</span>
-        </p>
-        <p className="text-sm text-gray-400">
-          Due at {new Date(task.DueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} on {new Date(task.DueDate).toLocaleDateString()}
-        </p>
+      <div className="p-4">
+        <div className="flex flex-row justify-between items-start">
+          <div>
+            <p className="text-2xl text-black/90 font-semibold">Description</p>
+            <div className="h-2" />
+            <p className="text-xl text-black/90 mb-2">
+              {task.Description.charAt(0).toUpperCase() +
+                task.Description.slice(1)}
+            </p>
+          </div>
+          <button
+            className="bg-red-400 text-xl hover:bg-red-600 text-white p-2 rounded"
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+        </div>
+        <p className="text-2xl text-black/90 font-semibold">Status</p>
+        <div className="h-2" />
+        {/* status card of blue */}
+        <div className="flex flex-row gap-4 items-center">
+          <div className="inline-block border border-blue-300 text-blue-500 bg-gray-100 px-2 py-1 rounded">
+            {task.Status.charAt(0).toUpperCase() + task.Status.slice(1)}
+          </div>
+        </div>
       </div>
 
-      <div className="flex flex-1 flex-row gap-2 p-2 border-t border-[#2D2D2D]">
+      <div className="flex flex-1 flex-row gap-2 p-2 border-t border-gray-300">
         <button
-          className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-1 rounded"
+          className="flex-1 text-xl min-h-8 bg-blue-500 hover:bg-blue-600 text-white py-1 rounded"
           onClick={() => setDialogOpen(true)}
         >
-          <Edit className="w-4 h-4 mx-auto" />
-        </button>
-        <button
-          className="p-4 bg-red-500 hover:bg-red-600 text-white py-1 rounded"
-          onClick={handleDelete}
-        >
-          <Trash className="w-4 h-4 mx-auto" />
+          Edit Status
         </button>
       </div>
 
