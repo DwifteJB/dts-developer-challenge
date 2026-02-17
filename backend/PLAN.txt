@@ -1,0 +1,13 @@
+general plan below:
+
+---- backend ----
+
+use go-chi as http server
+use a memory cache for task
+unit tests can use go tests
+-> http request to ensure:
+can create task
+retrieve a task by ID
+retrieve all tasks
+update the status of a task
+delete a task

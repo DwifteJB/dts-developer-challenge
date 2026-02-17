@@ -1,0 +1,24 @@
+services:
+  # https://hub.docker.com/_/postgres
+  dts-postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: dts
+      POSTGRES_PASSWORD: supersecretgovernmentpassword122
+      POSTGRES_DB: dts
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+  # dts-backend:
+  #   build: ./backend
+  #   container_name: backend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - dts-postgres
+
+volumes:
+  postgres_data:

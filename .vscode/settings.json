@@ -1,0 +1,5 @@
+{
+  "files.associations": {
+    "*.css": "tailwindcss" // so frontend/* files can use tailwind intellisense
+  }
+}
