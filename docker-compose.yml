@@ -16,8 +16,6 @@ services:
   dts-backend:
     build: ./backend
     container_name: backend
-    environment:
-      - POSTGRES_DSN="host=dts-postgres user=dts password=supersecretgovernmentpassword122 dbname=dts port=5432 sslmode=disable TimeZone=Europe/London"
     ports:
       - "3000:3000"
     depends_on:
