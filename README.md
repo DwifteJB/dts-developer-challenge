@@ -106,6 +106,7 @@ The easiest way is to run this via docker, there is a docker-compose.yml file in
 
     docker compose up --build -d
 This will build the buildfile within backend & also setup the postgres server.
+It will also not expose the postgres port, which makes it more secure than setting it up manually.
 
 ### Manually
 Setup postgres via whatever service, or use the docker compose file
