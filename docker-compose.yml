@@ -12,13 +12,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
 
-  # dts-backend:
-  #   build: ./backend
-  #   container_name: backend
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - dts-postgres
+  dts-backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - dts-postgres
 
 volumes:
   postgres_data:
