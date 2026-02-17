@@ -5,6 +5,7 @@ import type { Task } from "@/types";
 import { useEffect, useState } from "react";
 import Constants from "@/Constants";
 import { toast } from "react-hot-toast";
+import DialogWrapper from "./DialogWrapper";
 
 export default function EditDialog({
   open,
@@ -56,64 +57,53 @@ export default function EditDialog({
     }
   }
 
-  // id of the task to edit :)
-  // use portal
-  if (!open) return null;
 
-  return createPortal(
-    <div className="fixed inset-0  flex items-center justify-center">
-      {/* fake background */}
-      <div
-        onClick={() => {
-          // assume clicking outside
-          onClose();
-        }}
-        className="absolute inset-0 w-screen h-screen bg-[#0F0F10] opacity-80 backdrop-blur-3xl"
-      />
-      <div className="bg-[#0F0F10] border border-[#2D2D2D] rounded-lg p-4 w-96 z-20">
-        {/* X close button top right of the dialog */}
-        <div className="flex flex-row w-full justify-between items-center mb-4 ">
-          <h2 className="text-xl font-bold mb-4 text-white flex-1">
-            Edit Task
-          </h2>
-          <div className="flex">
-            <button
-              className="text-gray-400 hover:text-gray-600 -mt-6"
-              onClick={onClose}
-            >
-              <X className="w-4 h-4 cursor-pointer" />
-            </button>
-          </div>
+  return (
+    <DialogWrapper open={open} onClose={onClose}>
+      {/* X close button top right of the dialog */}
+      <div className="flex flex-row w-full justify-between items-center mb-4 ">
+        <h2 className="text-xl font-bold mb-4  flex-1">
+          Edit Task&apos;s status
+        </h2>
+        <div className="flex">
+          <button
+            className="text-gray-400 hover:text-gray-600 -mt-6"
+            onClick={onClose}
+          >
+            <X className="w-4 h-4 cursor-pointer" />
+          </button>
         </div>
-
-        <form className="flex flex-col gap-4">
-          <input
-            type="text"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            placeholder="Status"
-            className="bg-[#101010] border border-[#2D2D2D] rounded px-3 py-2 text-white"
-          />
-
-          <div className="flex justify-end gap-2">
-            <button
-              type="button"
-              className="rounded-xl border border-[#2D2D2D] bg-green-600 hover:bg-green-700 px-4 py-2 text-white "
-              onClick={handleEdit}
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-xl border border-[#2D2D2D] px-4 py-2 text-white hover:bg-[#2D2D2D]"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
       </div>
-    </div>,
-    document.body,
+
+      <form className="flex flex-col">
+        <span>Status</span>
+        <input
+          type="text"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          placeholder="Status"
+          className="border border-gray-300 rounded px-3 py-2"
+        />
+
+        <div className="h-4" />
+
+        <div className="flex justify-end gap-2">
+          <button
+            type="button"
+            className="rounded-xl border border-gray-300 bg-green-600 hover:bg-green-700 px-4 py-2 text-white"
+            onClick={handleEdit}
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-xl border border-gray-300 px-4 py-2  hover:bg-gray-200"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </DialogWrapper>
   );
 }
