@@ -1,5 +1,3 @@
-import { createPortal } from "react-dom";
-
 import { X } from "lucide-react";
 import type { Task } from "@/types";
 import { useState } from "react";
