@@ -179,3 +179,46 @@ func TestUpdateTask(t *testing.T) {
 	}
 
 }
+
+func TestGetByID(t *testing.T) {
+	go RunServer(true)
+	waitForServer()
+
+	createdTask, err := createTask() // create a task to get
+	if err != nil {
+		t.Error(err)
+	}
+
+	resp, err := http.Get("http://localhost:3000/task/" + fmt.Sprint(createdTask.ID))
+	if err != nil {
+		t.Error(err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+
+	var retrievedTask ServerTask
+	err = json.NewDecoder(resp.Body).Decode(&retrievedTask)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if retrievedTask.ID != createdTask.ID {
+		t.Errorf("expected id to be '%d', got '%d'", createdTask.ID, retrievedTask.ID)
+	}
+
+	if retrievedTask.Title != createdTask.Title {
+		t.Errorf("expected title to be '%s', got '%s'", createdTask.Title, retrievedTask.Title)
+	}
+
+	if retrievedTask.Description != createdTask.Description {
+		t.Errorf("expected description to be '%s', got '%s'", createdTask.Description, retrievedTask.Description)
+	}
+
+	if retrievedTask.Status != createdTask.Status {
+		t.Errorf("expected status to be '%s', got '%s'", createdTask.Status, retrievedTask.Status)
+	}
+
+}

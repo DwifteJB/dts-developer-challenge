@@ -2,6 +2,7 @@
 
 The live preview is at [dts.rmfosho.me](https://dts.rmfosho.me)
 
+
 ## Backend
 
 The backend is written in **GoLang** and uses the following modules:
@@ -13,7 +14,37 @@ The backend is written in **GoLang** and uses the following modules:
 | Gorm.io postgres |postgres driver for gorm|
 | godotenv |reading of .env files to inject into os.env|
 
-Go-chi allows routering to be blazingly fast. For example, locally a single postgres request takes around 20-40 **μs**. Gorm allows for a safe and easy way to interface with Postgres, as well as an easy way to switch in the future, if ever required; as well as easy migrations & hooks onto objects.
+Go-chi allows routering to be designed for low latency and high throughput. For example, locally a single postgres request takes around 20-40 **μs**. Gorm allows for a safe and easy way to interface with Postgres, as well as an easy way to switch in the future, if ever required; as well as easy migrations & hooks onto objects.
+
+## Backend Tests
+
+To run the backend tests, its as easy as running
+
+	go test -v
+
+It will run through the following tests:
+
+* TestCreateTask
+* TestGetAllTasks
+* TestDeleteTask
+* TestUpdateTask
+* TestGetByID
+
+The tests validate both HTTP responses and database state to ensure correctness.
+
+## Architecture
+
+The backend follows a layered structure:
+
+- Router layer (chi) handles HTTP routing
+- Handler layer processes requests and responses
+- Repository layer manages database interactions via GORM
+- PostgreSQL for persistence
+
+This separation ensures:
+- Clear responsibility boundaries
+- Easier testing
+- Maintainability and scalability
 
 ## APIs
 
@@ -46,7 +77,7 @@ Go-chi allows routering to be blazingly fast. For example, locally a single post
     {
 	    "title": "title",
 	    "description": "optional",
-	    "status": "status":
+	    "status": "status",
 	    "duedate": "2006-01-02T15:04:05Z07:00"
     }
 **Returns:**
@@ -138,3 +169,14 @@ This is a pretty simple react app, I was going to add more to  it, but I wanted 
     yarn build
 
 Then there will be a folder called dist as the built files.
+
+## Hosting
+
+This whole project is self-hosted on [coolify](https://coolify.io/) using the docker-compose.yml file at the root of this repo.
+
+This allows:
+
+- Reverse proxy with automatic HTTPS
+- Isolated PostgreSQL container (not publicly exposed)
+- Environment variable configuration
+- Reproducible containerised deployment
