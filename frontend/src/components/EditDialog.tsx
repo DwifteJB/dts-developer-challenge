@@ -55,7 +55,6 @@ export default function EditDialog({
     }
   }
 
-
   return (
     <DialogWrapper open={open} onClose={onClose}>
       {/* X close button top right of the dialog */}

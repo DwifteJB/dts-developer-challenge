@@ -68,7 +68,6 @@ export default function CreateTaskDialog({
     }
   }
 
-
   return (
     <DialogWrapper open={open} onClose={onClose}>
       {/* X close button top right of the dialog */}
@@ -88,7 +87,7 @@ export default function CreateTaskDialog({
         {/* title, description (text area), status and duetime (use calendar) */}
 
         <div className="flex flex-col gap-1">
-          <span>Title</span>
+          <span>Title *</span>
           <input
             type="text"
             placeholder="Title"
@@ -108,7 +107,7 @@ export default function CreateTaskDialog({
         </div>
 
         <div className="flex flex-col gap-1">
-          <span>Status</span>
+          <span>Status *</span>
           <input
             type="text"
             value={status}
@@ -121,7 +120,7 @@ export default function CreateTaskDialog({
         {/*  cal */}
 
         <div className="flex flex-col gap-1">
-          <span>Due Date & Time</span>
+          <span>Due Date & Time *</span>
           <input
             type="datetime-local"
             value={dueDate ? dueDate.toISOString().slice(0, 16) : ""}
@@ -134,7 +133,7 @@ export default function CreateTaskDialog({
         <div className="flex justify-end gap-2">
           <button
             type="button"
-            className="rounded-xl border border-gray-300 bg-green-600 hover:bg-green-700 px-4 py-2  "
+            className="rounded-xl text-white border border-gray-300 bg-green-600 hover:bg-green-700 px-4 py-2  "
             onClick={handleCreate}
           >
             Create

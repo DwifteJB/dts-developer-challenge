@@ -4,6 +4,7 @@ import EditDialog from "./EditDialog";
 import Constants from "@/Constants";
 
 import toast from "react-hot-toast";
+import { ChevronDown } from "lucide-react";
 
 function getStatusColor(status: string) {
   // assume that statuses are "pending", "in progress" & "complete", otherwise its blue
@@ -29,6 +30,7 @@ export default function TaskItem({
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   async function handleDelete() {
     try {
@@ -50,13 +52,30 @@ export default function TaskItem({
     }
   }
   return (
-    <div key={task.ID} className="bg-white border border-gray-300 m-2 rounded">
+    <div
+      key={task.ID}
+      className="bg-white transition-all border border-gray-300 m-2 rounded"
+    >
       {/* title at top */}
-      <div className="w-full border-b border-gray-300">
+      <div className={`w-full border-b ${isExpanded ? "border-gray-300" : "border-transparent"}`}>
         <div className="p-4">
-          <h3 className="text-3xl font-semibold tracking-tight">
-            {task.Title.charAt(0).toUpperCase() + task.Title.slice(1)}
-          </h3>
+          <div className="flex flex-row justify-between">
+            <h3 className="text-3xl font-semibold tracking-tight">
+              {task.Title.charAt(0).toUpperCase() + task.Title.slice(1)}
+            </h3>
+
+            {/* expand/collapse button */}
+            <button
+              className="text-gray-500 hover:text-gray-700"
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              {isExpanded ? (
+                <ChevronDown className="w-6 h-6" />
+              ) : (
+                <ChevronDown className="w-6 h-6 transform rotate-180" />
+              )}
+            </button>
+          </div>
 
           {/* due at */}
           <p className="text-xl text-black/90">
@@ -70,45 +89,51 @@ export default function TaskItem({
         </div>
       </div>
 
+      {/* expanded */}
       {/* contains: description, status, due date (parse from ISO) */}
-
-      <div className="p-4">
-        <div className="flex flex-row justify-between items-start">
-          <div>
-            <p className="text-2xl text-black/90 font-semibold">Description</p>
+      {isExpanded && (
+        <>
+          <div className="p-4">
+            <div className="flex flex-row justify-between items-start">
+              <div>
+                <p className="text-2xl text-black/90 font-semibold">
+                  Description
+                </p>
+                <div className="h-2" />
+                <p className="text-xl text-black/90 mb-2">
+                  {task.Description.charAt(0).toUpperCase() +
+                    task.Description.slice(1)}
+                </p>
+              </div>
+              <button
+                className="bg-red-400 text-xl hover:bg-red-600 text-white p-2 rounded"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+            <p className="text-2xl text-black/90 font-semibold">Status</p>
             <div className="h-2" />
-            <p className="text-xl text-black/90 mb-2">
-              {task.Description.charAt(0).toUpperCase() +
-                task.Description.slice(1)}
-            </p>
+            {/* status card of getStatusColor */}
+            <div className="flex flex-row gap-4 items-center">
+              <div
+                className={`inline-block border ${getStatusColor(task.Status)} px-2 py-1 rounded`}
+              >
+                {task.Status.charAt(0).toUpperCase() + task.Status.slice(1)}
+              </div>
+            </div>
           </div>
-          <button
-            className="bg-red-400 text-xl hover:bg-red-600 text-white p-2 rounded"
-            onClick={handleDelete}
-          >
-            Delete
-          </button>
-        </div>
-        <p className="text-2xl text-black/90 font-semibold">Status</p>
-        <div className="h-2" />
-        {/* status card of getStatusColor */}
-        <div className="flex flex-row gap-4 items-center">
-          <div
-            className={`inline-block border ${getStatusColor(task.Status)} px-2 py-1 rounded`}
-          >
-            {task.Status.charAt(0).toUpperCase() + task.Status.slice(1)}
-          </div>
-        </div>
-      </div>
 
-      <div className="flex flex-1 flex-row gap-2 p-2 border-t border-gray-300">
-        <button
-          className="flex-1 text-xl min-h-8 bg-blue-500 hover:bg-blue-600 text-white py-1 rounded"
-          onClick={() => setDialogOpen(true)}
-        >
-          Edit Status
-        </button>
-      </div>
+          <div className="flex flex-1 flex-row gap-2 p-2 border-t border-gray-300">
+            <button
+              className="flex-1 text-xl min-h-8 bg-blue-500 hover:bg-blue-600 text-white py-1 rounded"
+              onClick={() => setDialogOpen(true)}
+            >
+              Edit Status
+            </button>
+          </div>
+        </>
+      )}
 
       <EditDialog
         tasks={tasks}
