@@ -154,7 +154,9 @@ This will cause the server to run on localhost:3000, which can be port forwarded
 
 ## Frontend
 
-The frontend is written within vite, react and using typescript. I was originally going to use flutter, but that seems beyond overkill and not part of what the job may entail.
+The frontend is written within vite, react and using typescript. 
+
+The frontend was intentionally kept lightweight to focus on the core API functionality required by the challenge.
 
 There is no UI libraries, other than tailwind, which I would not class as one.
 
