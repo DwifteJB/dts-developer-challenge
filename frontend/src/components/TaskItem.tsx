@@ -57,7 +57,7 @@ export default function TaskItem({
           Status: <span className="text-green-400">{task.Status}</span>
         </p>
         <p className="text-sm text-gray-400">
-          Due: {new Date(task.DueDate).toLocaleDateString()}
+          Due at {new Date(task.DueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} on {new Date(task.DueDate).toLocaleDateString()}
         </p>
       </div>
 

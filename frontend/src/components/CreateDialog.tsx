@@ -52,6 +52,15 @@ export default function CreateTaskDialog({
         const newTask: Task = await response.json();
         setTasks([...tasks, newTask]);
         toast.success("Task created successfully");
+
+        // set everything back to default
+        setTitle("");
+        setDescription("");
+        setStatus("");
+        setDueDate(null);
+
+        
+
         onClose();
       } else {
         throw new Error("Failed to create task");
