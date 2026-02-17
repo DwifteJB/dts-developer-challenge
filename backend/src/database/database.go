@@ -13,7 +13,6 @@ var DB *gorm.DB
 
 func InitDatabase() {
 
-
 	// got from main.go (github.com/joho/godotenv)
 	dsn := os.Getenv("POSTGRES_DSN")
 
@@ -27,6 +26,5 @@ func InitDatabase() {
 
 	// setup :0
 	DB = db
-
 
 }

@@ -25,7 +25,7 @@ func RunServer(stopPrint bool) {
 	if !stopPrint {
 		r.Use(chimiddlewares.Logger) // testing to see if requests come through from the frontend
 	}
-	
+
 	r.Use(middleware.CaseSensitiveMiddleware)
 
 	// routes
